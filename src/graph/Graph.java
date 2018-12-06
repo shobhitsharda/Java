@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class Graph<B> {
 	ArrayList<Edge<B>> edges = new ArrayList<>();
@@ -118,7 +119,40 @@ public class Graph<B> {
 	//transpose - end -
 
 	//topological sort order - start -
-	public void printTopologicalSortOrder() {
+	public void printAllTopologicalSort() {
+		nodes.forEach(node -> {
+			System.out.println();
+			System.out.print("start node " + node.data + " -> ");
+			printTopologicalSort(node);
+		});
+	}
 
+	public void printTopologicalSort(final Node<B> startNode) {
+		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Stack<Node<B>> nodeStack = new Stack<>();
+
+		topologicalSortUtil(startNode, visitedSet, nodeStack);
+
+		nodes.forEach(node -> {
+			if (!visitedSet.contains(node)) {
+				topologicalSortUtil(node, visitedSet, nodeStack);
+			}
+		});
+
+		while(!nodeStack.isEmpty()) {
+			System.out.print(nodeStack.pop().data + " ");
+		}
+	}
+
+	private void topologicalSortUtil(final Node<B> node, final Set<Node<B>> visitedSet, final Stack<Node<B>> nodeStack) {
+		visitedSet.add(node);
+
+		node.neighbours.forEach(neighbourNode -> {
+			if (!visitedSet.contains(neighbourNode)) {
+				topologicalSortUtil(neighbourNode, visitedSet, nodeStack);
+			}
+		});
+
+		nodeStack.push(node);
 	}
 }
