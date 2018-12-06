@@ -5,6 +5,7 @@ public class CamelCase {
 	/*
 	 * https://www.hackerrank.com/challenges/camelcase/problem
 	 */
+
 	// Complete the camelcase function below.
 	static int camelcase(final String s) {
 		final int asciiA = 'A';
