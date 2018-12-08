@@ -4,7 +4,7 @@ package hackerrank;
 
 public class MinimumSwap {
 	public static void main(final String[] args) {
-		System.out.println(minimumSwaps(new int[] {4, 3, 1, 2}));
+		System.out.println(minimumSwaps(new int[] { 4, 3, 1, 2 }));
 	}
 
 	static int minimumSwaps(final int[] arr) {
@@ -14,9 +14,8 @@ public class MinimumSwap {
 		int temp = 0;
 		boolean isSwapped = false;
 		boolean isInitial = true;
-		final int prevSwapCount = 0;
 
-		while(isInitial || isSwapped) {
+		while (isInitial || isSwapped) {
 			isSwapped = false;
 			isInitial = false;
 

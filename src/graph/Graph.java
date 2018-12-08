@@ -19,6 +19,10 @@ public class Graph<B> {
 		nodeMap.put(nodeData, node);
 	}
 
+	public Node<B> getNode(final B nodeData) {
+		return nodeMap.get(nodeData);
+	}
+
 	public void addEdge(final B startNodeData, final B endNodeData) {
 		Node<B> startNode = nodeMap.get(startNodeData);
 		Node<B> endNode = nodeMap.get(endNodeData);
@@ -121,9 +125,8 @@ public class Graph<B> {
 	//topological sort order - start -
 	public void printAllTopologicalSort() {
 		nodes.forEach(node -> {
-			System.out.println();
-			System.out.print("start node " + node.data + " -> ");
 			printTopologicalSort(node);
+			System.out.println();
 		});
 	}
 
@@ -139,7 +142,9 @@ public class Graph<B> {
 			}
 		});
 
-		while(!nodeStack.isEmpty()) {
+		System.out.print("start node " + startNode.data + " -> ");
+
+		while (!nodeStack.isEmpty()) {
 			System.out.print(nodeStack.pop().data + " ");
 		}
 	}
