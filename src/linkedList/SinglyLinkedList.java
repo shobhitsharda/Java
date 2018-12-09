@@ -1,181 +1,109 @@
 package linkedList;
 
-import java.io.IOException;
-
 public class SinglyLinkedList {
-	public SinglyLinkedListNode head;
 
-	public SinglyLinkedList() {
-		head = null;
+	public void print(final SinglyLinkedListNode head) {
+		if (head == null) {
+			return;
+		}
+
+		System.out.println(head.data);
+
+		print(head.next);
 	}
 
-	public static void printLinkedList(SinglyLinkedListNode head) {
-		if (head == null) {
-			System.out.println("its null!");
-		}
-
-		while (head != null) {
-			System.out.println(head.data);
-			head = head.next;
-		}
-	}
-
-	public static SinglyLinkedListNode insertAtTail(final SinglyLinkedListNode head, final int data) {
-		final SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+	public SinglyLinkedListNode insertAtTail(final SinglyLinkedListNode head, final int nodeData) {
+		final SinglyLinkedListNode node = new SinglyLinkedListNode(nodeData);
 
 		if (head == null) {
-			return newNode;
+			return node;
 		}
 
-		SinglyLinkedListNode node = head;
+		SinglyLinkedListNode parentNode = head;
 
-		while (node.next != null) {
-			node = node.next;
+		while (parentNode.next != null) {
+			parentNode = parentNode.next;
 		}
 
-		node.next = newNode;
+		parentNode.next = node;
 
 		return head;
 	}
 
-	public static SinglyLinkedListNode insertAtHead(final SinglyLinkedListNode llist, final int data) {
-		final SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
-
-		if (llist == null) {
-			return newNode;
-		}
-
-		newNode.next = llist;
-		return newNode;
+	public SinglyLinkedListNode insertAtHead(final SinglyLinkedListNode head, final int data) {
+		final SinglyLinkedListNode node = new SinglyLinkedListNode(data);
+		node.next = head;
+		return node;
 	}
 
-	static SinglyLinkedListNode insertNodeAtPosition(final SinglyLinkedListNode head, final int data, final int position) {
-		if (head == null) {
-			return head;
-		}
-
+	public SinglyLinkedListNode insertNodeAtPosition(final SinglyLinkedListNode head, final int data, final int position) {
 		final SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
 
-		if (position == 0) {
+		if (head == null) {
+			return newNode;
+		}
+		else if (position == 0) {
 			newNode.next = head;
 			return newNode;
 		}
 
-		SinglyLinkedListNode node = head;
 		int count = 1;
+		SinglyLinkedListNode currentNode = head;
 
-		while (count < position) {
-			node = node.next;
+		while (count < position && currentNode.next != null) {
+			currentNode = currentNode.next;
 			count++;
 		}
 
-		newNode.next = node.next;
-		node.next = newNode;
+		newNode.next = currentNode.next;
+		currentNode.next = newNode;
 
 		return head;
 	}
 
-	static SinglyLinkedListNode deleteNode1(final SinglyLinkedListNode head, final int position) {
-		if (head == null || head.next == null && position == 0) {
-			return null;
-		}
-
-		SinglyLinkedListNode parentNode = head;
-		SinglyLinkedListNode childNode = head.next;
-		int count = 1;
-
-		while (count < position) {
-			parentNode = childNode;
-			childNode = childNode.next;
-			count++;
-		}
-
-		parentNode.next = childNode.next;
-
-		return head;
-	}
-
-	static SinglyLinkedListNode deleteNode(final SinglyLinkedListNode head, final int position) {
+	public SinglyLinkedListNode deleteNode(final SinglyLinkedListNode head, final int position) {
 		if (head == null) {
 			return null;
 		}
-
-		if (position == 0) {
+		else if (position == 0) {
 			return head.next;
 		}
 
-		SinglyLinkedListNode node = head;
 		int count = 1;
+		SinglyLinkedListNode currentNode = head;
 
 		while (count < position) {
-			node = node.next;
+			currentNode = currentNode.next;
 			count++;
+
+			if (currentNode == null) {
+				return head;
+			}
 		}
 
-		node.next = node.next.next;
+		currentNode.next = currentNode.next.next;
 
 		return head;
 	}
 
-	static void reversePrint(final SinglyLinkedListNode head) {
+	public void reversePrint(final SinglyLinkedListNode head) {
 		if (head == null) {
 			return;
 		}
 
 		reversePrint(head.next);
-
 		System.out.println(head.data);
 	}
 
-	static SinglyLinkedListNode reverse(final SinglyLinkedListNode head) {
-		if (head.next == null || head == null) {
+	public SinglyLinkedListNode reverse(final SinglyLinkedListNode head) {
+		if (head == null || head.next == null) {
 			return head;
 		}
 
-		final SinglyLinkedListNode remainingNode = reverse(head.next);
+		final SinglyLinkedListNode node = reverse(head.next);
 		head.next.next = head;
 		head.next = null;
-		return remainingNode;
-	}
-
-	static boolean compareLists(final SinglyLinkedListNode head1, final SinglyLinkedListNode head2) {
-		if (head1.next == null && head2.next == null) {
-			return true;
-		}
-
-		if (head1.next == null || head2.next == null) {
-			return false;
-		}
-
-		if (head1.data != head2.data) {
-			return false;
-		}
-
-		return compareLists(head1.next, head2.next);
-	}
-
-	static SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
-		if (head1 == null && head2 == null) {
-			return null;
-		}
-
-		if (head2 == null) {
-			return head1;
-		}
-
-		if (head1 == null) {
-			return head2;
-		}
-
-		if (head1.data > head2.data) {
-			final SinglyLinkedListNode tempNode = head2.next;
-			head2.next = head1;
-			head1 = head2;
-			head2 = tempNode;
-		}
-
-		head1.next = mergeLists(head1.next, head2);
-		return head1;
+		return node;
 	}
 
 	static int getNode(final SinglyLinkedListNode head, final int positionFromTail) {
@@ -228,74 +156,5 @@ public class SinglyLinkedList {
 		}
 
 		return duplicateHead1.data;
-	}
-
-	public static void main(final String[] args) throws IOException {
-		final SinglyLinkedList llist = new SinglyLinkedList();
-
-		for (int i = 5; i < 10; i++) {
-			llist.head = insertAtTail(llist.head, i);
-		}
-
-		printLinkedList(llist.head);
-
-		// System.out.println("inserting node at position 3");
-		// insertNodeAtPosition(llist.head, 3, 3);
-		// printLinkedList(llist.head);
-
-		// System.out.println("Deleting node at position 3");
-		// llist.head = deleteNode(llist.head, 3);
-		// printLinkedList(llist.head);
-
-		// System.out.println("Print Reveres Linked List");
-		// reversePrint(llist.head);
-
-		// System.out.println("Reversing the Linked List");
-		// reverse(llist.head);
-
-		// final SinglyLinkedList llist1 = new SinglyLinkedList();
-		// final SinglyLinkedList llist2 = new SinglyLinkedList();
-		//
-		// llist1.head = insertAtTail(llist1.head, 4);
-		// llist1.head = insertAtTail(llist1.head, 5);
-		// llist1.head = insertAtTail(llist1.head, 6);
-		//
-		// llist2.head = insertAtTail(llist2.head, 1);
-		// llist2.head = insertAtTail(llist2.head, 2);
-		// llist2.head = insertAtTail(llist2.head, 10);
-
-		// System.out.println("Printing llist1.head");
-		// printLinkedList(llist1.head);
-		//
-		// System.out.println("Printing llist2.head");
-		// printLinkedList(llist2.head);
-		//
-		// // llist3.head = mergeLists(llist1.head, llist2.head);
-		// System.out.println("Printing mreged list");
-		// printLinkedList(mergeLists(llist1.head, llist2.head));
-
-		// System.out.println("Printing the element from reverse");
-		// final int data = getNode(llist.head, 0);
-		// System.out.println(data);
-
-		// final SinglyLinkedList llist = new SinglyLinkedList();
-		//
-		// llist.head = insertAtTail(llist.head, 4);
-		// llist.head = insertAtTail(llist.head, 4);
-		// llist.head = insertAtTail(llist.head, 4);
-		//
-		// printLinkedList(removeDuplicates(llist.head));
-
-		// final SinglyLinkedList llist1 = new SinglyLinkedList();
-		// final SinglyLinkedList llist2 = new SinglyLinkedList();
-		//
-		// llist1.head = insertAtTail(llist1.head, 4);
-		// llist1.head = insertAtTail(llist1.head, 5);
-		// llist1.head = insertAtTail(llist1.head, 6);
-		//
-		// llist2.head = insertAtTail(llist2.head, 1);
-		// llist2.head = insertAtTail(llist2.head, 4);
-		// llist2.head = insertAtTail(llist2.head, 5);
-
 	}
 }
