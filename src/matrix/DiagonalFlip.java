@@ -1,18 +1,16 @@
 package matrix;
 
 public class DiagonalFlip {
-	public int[][] getDiagonalFlip(final int[][] matrix) {
-		final int n = matrix.length;
+	public void flip(final int[][] arr) {
 		int temp = 0;
+		final int length = arr.length;
 
-		for (int i = 0; i < n - 1; i++) {
-			for (int j = i + 1; j < n; j++) {
-				temp = matrix[i][j];
-				matrix[i][j] = matrix[j][i];
-				matrix[j][i] = temp;
+		for (int i = 0; i < length - 1; i++) {
+			for (int j = i + 1; j < length; j++) {
+				temp = arr[i][j];
+				arr[i][j] = arr[j][i];
+				arr[j][i] = temp;
 			}
 		}
-
-		return matrix;
 	}
 }

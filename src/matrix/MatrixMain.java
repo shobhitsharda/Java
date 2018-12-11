@@ -26,11 +26,23 @@ public class MatrixMain {
 		arr[3][2] = 15;
 		arr[3][3] = 16;
 
-		printMatrix(new MirrorImage().getMirrorImage(arr));
-		printMatrix(new WaterImage().getWaterImage(arr));
-		printMatrix(new DiagonalFlip().getDiagonalFlip(arr));
-		new ZigZag().getZigZag(arr);
-		printMatrix(new RotateImage90Degree().rotateImage90Clockwise(arr));
+		//final DiagonalFlip diagonalFlip = new DiagonalFlip();
+		//diagonalFlip.flip(arr);
+		//printMatrix(arr);
+
+		//final MirrorImage mirrorImage = new MirrorImage();
+		//mirrorImage.getMirrorImage(arr);
+		//printMatrix(arr);
+
+		//final WaterImage waterImage = new WaterImage();
+		//waterImage.getWaterImage(arr);
+		//printMatrix(arr);
+
+		//new ZigZag().getZigZag(arr);
+
+		final RotateImage90Degree rotateImage90Degree = new RotateImage90Degree();
+		rotateImage90Degree.rotateImage90AntiClockwise(arr);
+		printMatrix(arr);
 	}
 
 	public static void printMatrix(final int[][] matrix) {
