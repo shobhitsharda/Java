@@ -4,13 +4,13 @@ public class MainTree {
 
 	public static void main(final String[] args) {
 		final BinarySearchTree bst = new BinarySearchTree();
+		bst.addNode(17);
+		bst.addNode(13);
+		bst.addNode(24);
 		bst.addNode(10);
-		bst.addNode(16);
-		bst.addNode(-5);
 		bst.addNode(15);
-		bst.addNode(-3);
-		bst.addNode(2);
-		bst.addNode(18);
+		bst.addNode(23);
+		bst.addNode(27);
 
 		// System.out.println("rootNode: " + bst.rootNode.data);
 
@@ -62,8 +62,8 @@ public class MainTree {
 		// System.out.println("is new binary search tree: " +
 		// newTree.isTreeBinarySearchTree());
 
-		System.out.println("Iterative Post Order Traversal");
-		bst.printIterativePostOrderTraversal();
+		//System.out.println("Iterative Post Order Traversal");
+		//bst.printIterativePostOrderTraversal();
 		//
 		// System.out.println();
 		// System.out.println("Iterative Pre Order Traversal");
@@ -84,9 +84,9 @@ public class MainTree {
 		//		System.out.println("Print Level Order Traversal Spiral Order Dqueue");
 		//		bst.printLevelOrderTraversalInSpiralOrderDqueue();
 
-		System.out.println();
-		System.out.println("print Iterative Traversal Bt One Stack");
-		bst.printIterativePostOrderTraversalBtOneStack();
+		//System.out.println();
+		//System.out.println("print Iterative Traversal Bt One Stack");
+		//bst.printIterativePostOrderTraversalBtOneStack();
 	}
 
 }

@@ -1,6 +1,43 @@
 package matrix;
 
 public class RotateImage90Degree {
+
+	public void rotateImage90AntiClockwiseCleanMethod(final int[][] matrix) {
+		final int n = matrix.length - 1;
+
+		for (int i = 0; i <= n / 2; i++) {
+			for (int j = i; j < n - i; j++) {
+				final int p1 = matrix[j][i];
+				final int p2 = matrix[n - i][j];
+				final int p3 = matrix[n - j][n - i];
+				final int p4 = matrix[i][n - j];
+
+				matrix[n - i][j] = p1;
+				matrix[n - j][n - i] = p2;
+				matrix[i][n - j] = p3;
+				matrix[j][i] = p4;
+			}
+		}
+	}
+
+	public void rotateImage90ClockwiseCleanMethod(final int[][] matrix) {
+		final int n = matrix.length - 1;
+
+		for (int i = 0; i <= n / 2; i++) {
+			for (int j = i; j < n - i; j++) {
+				final int p1 = matrix[i][j];
+				final int p2 = matrix[j][n - i];
+				final int p3 = matrix[n - i][n - j];
+				final int p4 = matrix[n - j][i];
+
+				matrix[j][n - i] = p1;
+				matrix[n - i][n - j] = p2;
+				matrix[n - j][i] = p3;
+				matrix[i][j] = p4;
+			}
+		}
+	}
+
 	public void rotateImage90Clockwise(final int[][] matrix) {
 		final int n = matrix.length;
 		int temp = 0;
