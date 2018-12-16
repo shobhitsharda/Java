@@ -1,6 +1,8 @@
 package graph;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -9,6 +11,36 @@ public class DFS<B> {
 
 	public DFS(final Graph<B> graph) {
 		this.graph = graph;
+	}
+
+	public void dfsTraverseByRecurrsion(final B data) {
+		final Node<B> node = graph.getNode(data);
+
+		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Queue<Node<B>> nodeQueue = new LinkedList<>();
+
+		dfsTraverseByRecurrsion(node, visitedSet, nodeQueue);
+
+		graph.nodes.forEach(remainingNode -> {
+			if (!visitedSet.contains(remainingNode)) {
+				dfsTraverseByRecurrsion(remainingNode, visitedSet, nodeQueue);
+			}
+		});
+
+		while(!nodeQueue.isEmpty()) {
+			System.out.println(nodeQueue.remove().data);
+		}
+	}
+
+	public void dfsTraverseByRecurrsion(final Node<B> node, final Set<Node<B>> visitedSet, final Queue<Node<B>> nodeQueue) {
+		visitedSet.add(node);
+		nodeQueue.add(node);
+
+		node.neighbours.forEach(neighbourNode -> {
+			if (!visitedSet.contains(neighbourNode)) {
+				dfsTraverseByRecurrsion(neighbourNode, visitedSet, nodeQueue);
+			}
+		});
 	}
 
 	public void traverseByStack(final B nodeData) {
@@ -48,28 +80,30 @@ public class DFS<B> {
 	}
 
 	//node search
-	public boolean searchNode(final B nodeData) {
-		final Stack<Node<B>> nodeStack = new Stack<>();
+	public boolean searchNodeByDfs(final B nodeData) {
 		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Stack<Node<B>> nodeStack = new Stack<>();
+		Node<B> currentNode;
 
 		for (final Node<B> node : graph.nodes) {
-			nodeStack.push(node);
 			visitedSet.add(node);
+			nodeStack.push(node);
 
-			while (!nodeStack.isEmpty()) {
-				final Node<B> currentNode = nodeStack.pop();
+			while(!nodeStack.isEmpty()) {
+				currentNode = nodeStack.pop();
 
 				if (currentNode.data == nodeData) {
 					return true;
 				}
 
-				currentNode.neighbours.forEach(neighbourNode -> {
+				currentNode.neighbours.forEach(neighbourNode-> {
 					if (!visitedSet.contains(neighbourNode)) {
-						nodeStack.push(neighbourNode);
 						visitedSet.add(neighbourNode);
+						nodeStack.push(neighbourNode);
 					}
 				});
 			}
+
 		}
 
 		return false;

@@ -12,19 +12,21 @@ public class GraphMain {
 		graph.addEdge('D', 'F');
 		graph.addEdge('F', 'G');
 
-		//graph.printDepthFirstSearch();
 		//System.out.println(graph.isCyclic());
 		//graph.printGraph();
 		//System.out.println("after apply transpose");
 		//graph.getTranspose().printGraph();
-		//graph.printAllTopologicalSort();
+		//graph.printTopologicalSort('C');
+		graph.searchPath('B', 'F');
 
 		//final DFS<Character> dfs = new DFS<>(graph);
-		//dfs.traverseByStack('A');
-		//System.out.println(dfs.searchNode('R'));
+		//dfs.dfsTraverseByRecurrsion('B');
+		//dfs.traverseByStack('B');
+		//System.out.println(dfs.searchNodeByDfs('F'));
 
 		//final BFS<Character> bfs = new BFS<>(graph);
-		//bfs.traverseByQueue('A');
-		//System.out.println(bfs.searchData('H'));
+		//bfs.traverseByQueue('B');
+		//bfs.bfsTraverseUsingQueue('B');
+		//System.out.println(bfs.searchNodeByBfs('F'));
 	}
 }

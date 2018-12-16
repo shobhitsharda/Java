@@ -3,8 +3,6 @@ package graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -49,34 +47,6 @@ public class Graph<B> {
 			System.out.println("Edge: " + edge.startNode.data + " -> " + edge.endNode.data);
 		});
 	}
-
-	//DFS - start -
-	public void printDepthFirstSearch() {
-		final Set<Node<B>> visitedSet = new HashSet<>();
-		final Queue<Node<B>> nodeQueue = new LinkedList<>();
-
-		for (final Node<B> node : nodes) {
-			if (!visitedSet.contains(node)) {
-				printDepthFirstSearch(node, visitedSet, nodeQueue);
-			}
-		}
-
-		while (!nodeQueue.isEmpty()) {
-			System.out.println(nodeQueue.poll().data);
-		}
-	}
-
-	private void printDepthFirstSearch(final Node<B> node, final Set<Node<B>> visitedSet, final Queue<Node<B>> nodeQueue) {
-		visitedSet.add(node);
-		nodeQueue.add(node);
-
-		for (final Node<B> neighbourNode : node.neighbours) {
-			if (!visitedSet.contains(neighbourNode)) {
-				printDepthFirstSearch(neighbourNode, visitedSet, nodeQueue);
-			}
-		}
-	}
-	//DFS - end -
 
 	//cyclic - start -
 	public boolean isCyclic() {
@@ -123,41 +93,72 @@ public class Graph<B> {
 	//transpose - end -
 
 	//topological sort order - start -
-	public void printAllTopologicalSort() {
-		nodes.forEach(node -> {
-			printTopologicalSort(node);
-			System.out.println();
-		});
-	}
-
-	public void printTopologicalSort(final Node<B> startNode) {
+	public void printTopologicalSort(final B nodeData) {
 		final Set<Node<B>> visitedSet = new HashSet<>();
 		final Stack<Node<B>> nodeStack = new Stack<>();
+		final Node<B> node = nodeMap.get(nodeData);
 
-		topologicalSortUtil(startNode, visitedSet, nodeStack);
+		printTopologicalSort(node, visitedSet, nodeStack);
 
-		nodes.forEach(node -> {
-			if (!visitedSet.contains(node)) {
-				topologicalSortUtil(node, visitedSet, nodeStack);
+		nodes.forEach(remainingNode -> {
+			if (!visitedSet.contains(remainingNode)) {
+				printTopologicalSort(remainingNode, visitedSet, nodeStack);
 			}
 		});
 
-		System.out.print("start node " + startNode.data + " -> ");
-
-		while (!nodeStack.isEmpty()) {
-			System.out.print(nodeStack.pop().data + " ");
+		while(!nodeStack.isEmpty()) {
+			System.out.println(nodeStack.pop().data);
 		}
 	}
 
-	private void topologicalSortUtil(final Node<B> node, final Set<Node<B>> visitedSet, final Stack<Node<B>> nodeStack) {
+	public void printTopologicalSort(final Node<B> node, final Set<Node<B>> visitedSet, final Stack<Node<B>> nodeStack) {
 		visitedSet.add(node);
 
 		node.neighbours.forEach(neighbourNode -> {
 			if (!visitedSet.contains(neighbourNode)) {
-				topologicalSortUtil(neighbourNode, visitedSet, nodeStack);
+				printTopologicalSort(neighbourNode, visitedSet, nodeStack);
 			}
 		});
 
 		nodeStack.push(node);
 	}
+
+	public void searchPath(final B startNodeData, final B endNodeData) {
+		final Node<B> startNode = nodeMap.get(startNodeData);
+		final Node<B> endNode = nodeMap.get(endNodeData);
+
+		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Stack<Node<B>> nodeStack = new Stack<>();
+
+		if (isPathAvailable(startNode, endNode, visitedSet, nodeStack)) {
+			while(!nodeStack.isEmpty()) {
+				System.out.println(nodeStack.pop().data);
+			}
+		} else {
+			System.out.println("Path not Found!");
+		}
+	}
+
+	public boolean isPathAvailable(final Node<B> startNode, final Node<B> endNode, final Set<Node<B>> visitedSet, final Stack<Node<B>> nodeStack){
+		visitedSet.add(startNode);
+		nodeStack.push(startNode);
+
+		if (startNode == endNode){
+			return true;
+		}
+
+		for (final Node<B> neighbourNode : startNode.neighbours) {
+			if (visitedSet.contains(neighbourNode)) {
+				continue;
+			}
+
+			if (isPathAvailable(neighbourNode, endNode, visitedSet, nodeStack)) {
+				return true;
+			}
+		}
+
+		nodeStack.pop();
+		return false;
+	}
+
 }

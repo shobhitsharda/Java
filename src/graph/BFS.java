@@ -12,53 +12,50 @@ public class BFS<B> {
 		this.graph = graph;
 	}
 
-	public void traverseByQueue(final B nodeData) {
-		final Node<B> node = graph.getNode(nodeData);
-
-		if (node == null) {
-			return;
-		}
-
-		final Queue<Node<B>> nodeQ = new LinkedList<>();
+	public void bfsTraverseUsingQueue(final B nodeData) {
+		final Node<B> node = graph.nodeMap.get(nodeData);
 		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Queue<Node<B>> nodeQueue = new LinkedList<>();
 
-		traverseByQueue(node, nodeQ, visitedSet);
+		bfsTraverseUsingQueue(node, visitedSet, nodeQueue);
 
 		graph.nodes.forEach(remainingNode -> {
 			if (!visitedSet.contains(remainingNode)) {
-				traverseByQueue(remainingNode, nodeQ, visitedSet);
+				bfsTraverseUsingQueue(remainingNode, visitedSet, nodeQueue);
 			}
+
 		});
 	}
 
-	public void traverseByQueue(final Node<B> node, final Queue<Node<B>> nodeQ, final Set<Node<B>> visitedSet) {
-		nodeQ.add(node);
+	public void bfsTraverseUsingQueue(final Node<B> node, final Set<Node<B>> visitedSet, final Queue<Node<B>> nodeQueue) {
 		visitedSet.add(node);
+		nodeQueue.add(node);
+		Node<B> currentNode;
 
-		while (!nodeQ.isEmpty()) {
-			final Node<B> currentNode = nodeQ.poll();
+		while(!nodeQueue.isEmpty()) {
+			currentNode = nodeQueue.remove();
 			System.out.println(currentNode.data);
 
 			currentNode.neighbours.forEach(neighbourNode -> {
 				if (!visitedSet.contains(neighbourNode)) {
-					nodeQ.add(neighbourNode);
+					nodeQueue.add(neighbourNode);
 					visitedSet.add(neighbourNode);
 				}
 			});
 		}
 	}
 
-	//search data
-	public boolean searchData(final B nodeData) {
-		final Queue<Node<B>> nodeQ = new LinkedList<>();
+	public boolean searchNodeByBfs(final B nodeData) {
 		final Set<Node<B>> visitedSet = new HashSet<>();
+		final Queue<Node<B>> nodeQueue = new LinkedList<>();
+		Node<B> currentNode;
 
 		for (final Node<B> node : graph.nodes) {
-			nodeQ.add(node);
 			visitedSet.add(node);
+			nodeQueue.add(node);
 
-			while (!nodeQ.isEmpty()) {
-				final Node<B> currentNode = nodeQ.poll();
+			while(!nodeQueue.isEmpty()) {
+				currentNode = nodeQueue.remove();
 
 				if (currentNode.data == nodeData) {
 					return true;
@@ -66,8 +63,8 @@ public class BFS<B> {
 
 				currentNode.neighbours.forEach(neighbourNode -> {
 					if (!visitedSet.contains(neighbourNode)) {
-						nodeQ.add(neighbourNode);
 						visitedSet.add(neighbourNode);
+						nodeQueue.add(neighbourNode);
 					}
 				});
 			}
